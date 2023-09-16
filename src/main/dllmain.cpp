@@ -66,7 +66,7 @@ STDAPI DllRegisterServer()
 	// TODO: Better error handling!
 	hr = RegisterInprocServer(szModule, CLSID_RageShellIconHandler, TEXT(INPROCSERVERNAME), TEXT("Apartment"));
 
-	hr = RegisterShellIconHandler(CLSID_RageShellIconHandler, TEXT(RPF_HANDLER), TEXT(RPF_FILE_DESCRIPTION));
+	hr = RegisterShellIconHandler(CLSID_RageShellIconHandler, TEXT(RPF_HANDLER),	TEXT(RPF_FILE_DESCRIPTION));
 	hr = RegisterShellIconHandler(CLSID_RageShellIconHandler, TEXT(SCRIPT_HANDLER),	TEXT(SCRIPT_FILE_DESCRIPTION));
 
 	hr = RegisterShellFileExtension(TEXT(".rpf"), TEXT(RPF_HANDLER));
