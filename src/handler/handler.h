@@ -5,8 +5,8 @@
 #ifndef _HANDLER_H_
 #define _HANDLER_H_
 
+// C/C++
 #include <windows.h>
-#include <wincodec.h> 
 #include <ShlObj.h>
 
 class IconHandler :
@@ -29,7 +29,6 @@ public:
 
 	// IExtractIcon
 	IFACEMETHODIMP GetIconLocation(UINT uFlags, PWSTR pszIconFile, UINT cchMax, int* piIndex, UINT* pwFlags);
-
 	IFACEMETHODIMP Extract(PCWSTR pszFile, UINT nIconIndex, HICON* phiconLarge, HICON* phiconSmall, UINT nIconSize);
 
 	IconHandler();

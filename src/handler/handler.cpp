@@ -7,10 +7,7 @@
 
 // C/C++
 #include <Shlwapi.h>
-#include <msxml6.h>
-#include <Guiddef.h>
 #include <strsafe.h>
-
 #include <string.h>
 
 // Vars
@@ -115,10 +112,6 @@ STDMETHODIMP IconHandler::GetIconLocation(UINT uFlags, PWSTR pszIconFile, UINT c
 			}
 		}
 		CloseHandle(hFile);
-	}
-	else
-	{
-		return S_FALSE;
 	}
 
 	*pwFlags = 0;

@@ -1,6 +1,9 @@
+//
+//	registry/registry.h
+//
 
-
-#pragma once
+#ifndef _REGISTRY_H_
+#define _REGISTRY_H_
 
 #include <windows.h>
 
@@ -12,3 +15,5 @@ HRESULT UnregisterShellIconHandler(PCWSTR pszHandlerName);
 
 HRESULT RegisterShellFileExtension(PCWSTR pszFileType, PCWSTR pszHandlerName);
 HRESULT UnregisterShellFileExtension(PCWSTR pszFileType);
+
+#endif // _REGISTRY_H_

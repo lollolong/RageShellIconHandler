@@ -1,6 +1,11 @@
+//
+//	registry/registry.cpp
+//
 
+// Project
 #include "registry.h"
 
+// C/C++
 #include <strsafe.h>
 
 HRESULT WriteRegistryValue(HKEY hKey, PCWSTR pszSubKey, PCWSTR pszValueName, PCWSTR pszData)
