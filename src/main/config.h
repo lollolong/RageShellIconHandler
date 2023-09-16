@@ -2,8 +2,8 @@
 //	main/config.h
 //
 
-#ifndef _CONFIG_H
-#define _CONFIG_H
+#ifndef _CONFIG_H_
+#define _CONFIG_H_
 
 // Descriptions
 #define RPF_FILE_DESCRIPTION		"Rockstar Pack File"
@@ -14,4 +14,4 @@
 #define RPF_HANDLER			"RageRpfShellIconHandler"
 #define SCRIPT_HANDLER		"RageScriptShellIconHandler"
 
-#endif // _CONFIG_H
+#endif // _CONFIG_H_

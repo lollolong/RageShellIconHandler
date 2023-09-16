@@ -1,24 +1,11 @@
-/****************************** Module Header ******************************\
-Module Name:  ClassFactory.h
-Project:      CppShellExtThumbnailHandler
-Copyright (c) Microsoft Corporation.
+//
+//	factory/factory.h
+//
 
-The file declares the class factory for the RecipeThumbnailProvider COM class. 
+#ifndef _FACTORY_H_
+#define _FACTORY_H_
 
-This source is subject to the Microsoft Public License.
-See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL.
-All other rights reserved.
-
-THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
-EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED 
-WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
-\***************************************************************************/
-
-#pragma once
-
-#include <unknwn.h>     // For IClassFactory
 #include <windows.h>
-
 
 class ClassFactory : public IClassFactory
 {
@@ -38,5 +25,7 @@ protected:
     ~ClassFactory();
 
 private:
-    long m_cRef;
+    long m_RefCount;
 };
+
+#endif

@@ -1,15 +1,15 @@
+//
+//	handler/handler.h
+//
 
-
-#pragma once
+#ifndef _HANDLER_H_
+#define _HANDLER_H_
 
 #include <windows.h>
 #include <wincodec.h> 
 #include <ShlObj.h>
 
-#pragma comment(lib, "windowscodecs.lib")
-
-
-class RockstarPackFileHandler :
+class IconHandler :
 	public IPersistFile,
 	public IExtractIcon
 {
@@ -28,21 +28,20 @@ public:
 	IFACEMETHODIMP Load(PCWSTR pszFileName, DWORD dwMode);
 
 	// IExtractIcon
-	IFACEMETHODIMP GetIconLocation(UINT uFlags, LPTSTR szIconFile, UINT cchMax,
-		int* piIndex, UINT* pwFlags);
+	IFACEMETHODIMP GetIconLocation(UINT uFlags, PWSTR pszIconFile, UINT cchMax, int* piIndex, UINT* pwFlags);
 
-	IFACEMETHODIMP Extract(LPCTSTR pszFile, UINT nIconIndex, HICON* phiconLarge,
-		HICON* phiconSmall, UINT nIconSize);
+	IFACEMETHODIMP Extract(PCWSTR pszFile, UINT nIconIndex, HICON* phiconLarge, HICON* phiconSmall, UINT nIconSize);
 
-	RockstarPackFileHandler();
+	IconHandler();
 
 protected:
-	~RockstarPackFileHandler();
+	~IconHandler();
 
 private:
-	// Reference count of component.
-	long m_cRef;
+	long m_RefCount;
 
-	wchar_t m_szFileName[MAX_PATH];    // The file name
-	DWORD m_dwMode;                  // The file access mode
+	DWORD m_dwMode;
+	wchar_t m_szFileName[MAX_PATH];
 };
+
+#endif // _HANDLER_H_
