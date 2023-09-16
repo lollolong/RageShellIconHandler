@@ -4,19 +4,22 @@
 
 # Source files
 set(SOURCES
-   main/dllmain.cpp
-   main/GlobalExportFunctions.def
+    exports.def
 
-   factory/factory.cpp
-   factory/factory.h
+    factory/factory.cpp
+    factory/factory.h
 
-   handler/handler.cpp
-   handler/handler.h
+    handler/handler.cpp
+    handler/handler.h
 
-   registry/registry.cpp
-   registry/registry.h
+    main/dllmain.cpp
+    main/config.h
 
-   resources/resource.h
+    registry/registry.cpp
+    registry/registry.h
+    
+    resources/resource.h
+    resources/resource.rc
 )
 
 # Executable

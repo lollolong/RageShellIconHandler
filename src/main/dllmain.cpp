@@ -1,26 +1,27 @@
-#include <windows.h>
-#include <Guiddef.h>
-#include <shlobj.h>
+//
+//	main/dllmain.cpp
+//
 
+// Project
+#include "config.h"
 #include "factory/factory.h"
 #include "registry/registry.h"
 
-// Descriptions
-#define RPF_FILE_DESCRIPTION		"Rockstar Pack File"
-#define SCRIPT_FILE_DESCRIPTION		"Script Resource"
+// C/C++
+#include <windows.h>
+#include <shlobj.h>
+#include <Guiddef.h>
 
-// Internal Handler Name
-#define INPROCSERVERNAME	"RAGE Shell Icon Handler"
-#define RPF_HANDLER			"RageRpfShellIconHandler"
-#define SCRIPT_HANDLER		"RageScriptShellIconHandler"
+#pragma warning (disable : 28251) // Inconsistent annotation?
 
+// Vars
+long        g_DllRefCount;
+HINSTANCE   g_hInstDLL;
 
 // {BBDA5482-6402-4B00-AE5F-5C20F896545A}
 CLSID CLSID_RageShellIconHandler =
 { 0xbbda5482, 0x6402, 0x4b00, { 0xae, 0x5f, 0x5c, 0x20, 0xf8, 0x96, 0x54, 0x5a } };
 
-long        g_DllRefCount;
-HINSTANCE   g_hInstDLL;
 
 BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved)
 {
