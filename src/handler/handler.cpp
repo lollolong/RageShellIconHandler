@@ -17,7 +17,7 @@ extern CLSID		CLSID_RageShellIconHandler;
 
 static const char g_Platforms[]{
 	'x' /* Xenon */,
-	'c' /* Call */,
+	'c' /* Cell */,
 	'd' /* Durango */,
 	'o' /* Orbis */,
 	'p' /* Prospero */,
@@ -84,10 +84,10 @@ STDMETHODIMP IconHandler::GetIconLocation(UINT uFlags, PWSTR pszIconFile, UINT c
 	GetModuleFileName(g_hInstDLL, szModulePath, MAX_PATH);
 	(void)lstrcpyn(pszIconFile, szModulePath, cchMax);
 
-	if (IsOfPlatformExtension(L".sc")) {
+	if (IsOfPlatformExtension(L"sc")) {
 		*piIndex = 2;
 	}
-	else if (IsOfPlatformExtension(L".td")) {
+	else if (IsOfPlatformExtension(L"td")) {
 		*piIndex = 3;
 	}
 	else if (IsOfExtension(L".awc")) {
