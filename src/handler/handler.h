@@ -37,6 +37,11 @@ protected:
 	~IconHandler();
 
 private:
+	bool IsOfExtension(const wchar_t* extension) const;
+	bool IsOfPlatformExtension(const wchar_t* extension) const;
+	unsigned int ReadMagic() const;
+
+private:
 	long m_RefCount;
 
 	DWORD m_dwMode;

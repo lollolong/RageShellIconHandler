@@ -15,6 +15,17 @@ extern long			g_DllRefCount;
 extern HINSTANCE	g_hInstDLL;
 extern CLSID		CLSID_RageShellIconHandler;
 
+static const char g_Platforms[]{
+	'x' /* Xenon */,
+	'c' /* Call */,
+	'd' /* Durango */,
+	'o' /* Orbis */,
+	'p' /* Prospero */,
+	'a' /* Android */,
+	's' /* iOS */,
+	'w' /* x32 */,
+	'y' /* x64 */
+};
 
 IconHandler::IconHandler() : m_RefCount(1), m_dwMode(0)
 {
@@ -73,45 +84,21 @@ STDMETHODIMP IconHandler::GetIconLocation(UINT uFlags, PWSTR pszIconFile, UINT c
 	GetModuleFileName(g_hInstDLL, szModulePath, MAX_PATH);
 	(void)lstrcpyn(pszIconFile, szModulePath, cchMax);
 
-	const wchar_t* ext = wcsrchr(m_szFileName, '.');
-	if (ext)
-	{
-		const bool bIsPackfileExt = !_wcsicmp(ext, L".rpf");
-
-		const bool bIsScriptResourceExt = !_wcsicmp(ext, L".xsc") ||
-			!_wcsicmp(ext, L".csc") ||
-			!_wcsicmp(ext, L".dsc") ||
-			!_wcsicmp(ext, L".osc") ||
-			!_wcsicmp(ext, L".psc") ||
-			!_wcsicmp(ext, L".asc") ||
-			!_wcsicmp(ext, L".ssc") ||
-			!_wcsicmp(ext, L".wsc") ||
-			!_wcsicmp(ext, L".ysc");
-
-		if (bIsPackfileExt) {
-			*piIndex = 0;
-		}
-		else if (bIsScriptResourceExt) {
-			*piIndex = 2;
-		}
+	if (IsOfPlatformExtension(L".sc")) {
+		*piIndex = 2;
 	}
-
-	HANDLE hFile = CreateFile(m_szFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-	if (hFile != INVALID_HANDLE_VALUE)
-	{
-		char magic[4] = {};
-		if (ReadFile(hFile, magic, sizeof(magic), NULL, NULL))
-		{
-			const bool bIsPackfile = (magic[0] == 'R' && magic[1] == 'P' && magic[2] == 'F') ||
-				(magic[1] == 'F' && magic[2] == 'P' && magic[3] == 'R');
-
-			if (bIsPackfile)
-			{
-				const bool bIsV3 = (magic[3] == '3' || magic[0] == '3');
-				bIsV3 ? *piIndex = 1 : *piIndex = 0;
-			}
-		}
-		CloseHandle(hFile);
+	else if (IsOfPlatformExtension(L".td")) {
+		*piIndex = 3;
+	}
+	else if (IsOfExtension(L".awc")) {
+		*piIndex = 4;
+	}
+	else if (IsOfExtension(L".rpf")) {
+		unsigned int uMagic = ReadMagic();
+		(uMagic == 'RPF3' || uMagic == '3FPR') ? *piIndex = 1 : *piIndex = 0;
+	}
+	else {
+		return S_FALSE;
 	}
 
 	*pwFlags = 0;
@@ -121,4 +108,46 @@ STDMETHODIMP IconHandler::GetIconLocation(UINT uFlags, PWSTR pszIconFile, UINT c
 IFACEMETHODIMP IconHandler::Extract(PCWSTR pszFile, UINT nIconIndex, HICON* phiconLarge, HICON* phiconSmall, UINT nIconSize)
 {
 	return S_FALSE;
+}
+
+bool IconHandler::IsOfExtension(const wchar_t* extension) const
+{
+	const wchar_t* ext = wcsrchr(m_szFileName, L'.');
+	return (ext != NULL ? !_wcsicmp(ext, extension) : false);
+}
+
+bool IconHandler::IsOfPlatformExtension(const wchar_t* extension) const
+{
+	const wchar_t* ext = wcsrchr(m_szFileName, L'.');
+	if (ext)
+	{
+		bool bPlatformMatch = false;
+		for (const char platform : g_Platforms)
+		{
+			if (towlower(ext[1]) == platform)
+			{
+				bPlatformMatch = true;
+				break;
+			}
+		}
+		return (bPlatformMatch && !_wcsicmp(ext + 2, extension));
+	}
+	return false;
+}
+
+unsigned int IconHandler::ReadMagic() const
+{
+	HANDLE hFile = CreateFile(m_szFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	if (hFile == INVALID_HANDLE_VALUE) {
+		return 0;
+	}
+
+	unsigned int uMagic;
+	if (!ReadFile(hFile, &uMagic, sizeof(uMagic), NULL, NULL)) {
+		return 0;
+	}
+
+	CloseHandle(hFile);
+	return uMagic;
 }
