@@ -66,10 +66,17 @@ STDAPI DllRegisterServer()
 	// TODO: Better error handling!
 	hr = RegisterInprocServer(szModule, CLSID_RageShellIconHandler, TEXT(INPROCSERVERNAME), TEXT("Apartment"));
 
-	hr = RegisterShellIconHandler(CLSID_RageShellIconHandler, TEXT(RPF_HANDLER),	TEXT(RPF_FILE_DESCRIPTION));
-	hr = RegisterShellIconHandler(CLSID_RageShellIconHandler, TEXT(SCRIPT_HANDLER),	TEXT(SCRIPT_FILE_DESCRIPTION));
+	// Tell the shell the type name
+	hr = RegisterShellIconHandler(CLSID_RageShellIconHandler, TEXT(RPF_HANDLER),					TEXT(RPF_FILE_DESCRIPTION));
+	hr = RegisterShellIconHandler(CLSID_RageShellIconHandler, TEXT(AWC_HANDLER),					TEXT(AWC_FILE_DESCRIPTION));
+	hr = RegisterShellIconHandler(CLSID_RageShellIconHandler, TEXT(SCRIPT_HANDLER),					TEXT(SCRIPT_FILE_DESCRIPTION));
+	hr = RegisterShellIconHandler(CLSID_RageShellIconHandler, TEXT(TEXTURE_DICTIONARY_HANDLER),		TEXT(TEXTURE_DICTIONARY_FILE_DESCRIPTION));
 
+	// Platform independent
 	hr = RegisterShellFileExtension(TEXT(".rpf"), TEXT(RPF_HANDLER));
+	hr = RegisterShellFileExtension(TEXT(".awc"), TEXT(AWC_HANDLER));
+
+	// Script Resources
 	hr = RegisterShellFileExtension(TEXT(".xsc"), TEXT(SCRIPT_HANDLER));
 	hr = RegisterShellFileExtension(TEXT(".csc"), TEXT(SCRIPT_HANDLER));
 	hr = RegisterShellFileExtension(TEXT(".dsc"), TEXT(SCRIPT_HANDLER));
@@ -79,6 +86,17 @@ STDAPI DllRegisterServer()
 	hr = RegisterShellFileExtension(TEXT(".ssc"), TEXT(SCRIPT_HANDLER));
 	hr = RegisterShellFileExtension(TEXT(".wsc"), TEXT(SCRIPT_HANDLER));
 	hr = RegisterShellFileExtension(TEXT(".ysc"), TEXT(SCRIPT_HANDLER));
+
+	// Texture Dictionary
+	hr = RegisterShellFileExtension(TEXT(".xtd"), TEXT(TEXTURE_DICTIONARY_HANDLER));
+	hr = RegisterShellFileExtension(TEXT(".ctd"), TEXT(TEXTURE_DICTIONARY_HANDLER));
+	hr = RegisterShellFileExtension(TEXT(".dtd"), TEXT(TEXTURE_DICTIONARY_HANDLER));
+	hr = RegisterShellFileExtension(TEXT(".otd"), TEXT(TEXTURE_DICTIONARY_HANDLER));
+	hr = RegisterShellFileExtension(TEXT(".ptd"), TEXT(TEXTURE_DICTIONARY_HANDLER));
+	hr = RegisterShellFileExtension(TEXT(".atd"), TEXT(TEXTURE_DICTIONARY_HANDLER));
+	hr = RegisterShellFileExtension(TEXT(".std"), TEXT(TEXTURE_DICTIONARY_HANDLER));
+	hr = RegisterShellFileExtension(TEXT(".wtd"), TEXT(TEXTURE_DICTIONARY_HANDLER));
+	hr = RegisterShellFileExtension(TEXT(".ytd"), TEXT(TEXTURE_DICTIONARY_HANDLER));
 
 	if (SUCCEEDED(hr))
 	{
@@ -102,9 +120,13 @@ STDAPI DllUnregisterServer()
 	hr = UnregisterInprocServer(CLSID_RageShellIconHandler);
 
 	hr = UnregisterShellIconHandler(TEXT(RPF_HANDLER));
+	hr = UnregisterShellIconHandler(TEXT(AWC_HANDLER));
 	hr = UnregisterShellIconHandler(TEXT(SCRIPT_HANDLER));
+	hr = UnregisterShellIconHandler(TEXT(TEXTURE_DICTIONARY_HANDLER));
 
 	hr = UnregisterShellFileExtension(TEXT(".rpf"));
+	hr = UnregisterShellFileExtension(TEXT(".awc"));
+
 	hr = UnregisterShellFileExtension(TEXT(".xsc"));
 	hr = UnregisterShellFileExtension(TEXT(".csc"));
 	hr = UnregisterShellFileExtension(TEXT(".dsc"));
@@ -114,6 +136,16 @@ STDAPI DllUnregisterServer()
 	hr = UnregisterShellFileExtension(TEXT(".ssc"));
 	hr = UnregisterShellFileExtension(TEXT(".wsc"));
 	hr = UnregisterShellFileExtension(TEXT(".ysc"));
+
+	hr = UnregisterShellFileExtension(TEXT(".xtd"));
+	hr = UnregisterShellFileExtension(TEXT(".ctd"));
+	hr = UnregisterShellFileExtension(TEXT(".dtd"));
+	hr = UnregisterShellFileExtension(TEXT(".otd"));
+	hr = UnregisterShellFileExtension(TEXT(".ptd"));
+	hr = UnregisterShellFileExtension(TEXT(".atd"));
+	hr = UnregisterShellFileExtension(TEXT(".std"));
+	hr = UnregisterShellFileExtension(TEXT(".wtd"));
+	hr = UnregisterShellFileExtension(TEXT(".ytd"));
 
 	if (SUCCEEDED(hr))
 	{
