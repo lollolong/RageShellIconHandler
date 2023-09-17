@@ -143,7 +143,7 @@ unsigned int IconHandler::ReadMagic() const
 		return 0;
 	}
 
-	unsigned int uMagic;
+	unsigned int uMagic{};
 	if (!ReadFile(hFile, &uMagic, sizeof(uMagic), NULL, NULL)) {
 		return 0;
 	}
