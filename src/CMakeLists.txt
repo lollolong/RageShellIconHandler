@@ -17,6 +17,9 @@ set(SOURCES
 
     registry/registry.cpp
     registry/registry.h
+
+    util/util.cpp
+    util/util.h
     
     resources/resource.h
     resources/resource.rc

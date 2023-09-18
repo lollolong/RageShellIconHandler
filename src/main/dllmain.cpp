@@ -6,6 +6,7 @@
 #include "config.h"
 #include "factory/factory.h"
 #include "registry/registry.h"
+#include "util/util.h"
 
 // C/C++
 #include <windows.h>
@@ -64,39 +65,21 @@ STDAPI DllRegisterServer()
 	}
 
 	// TODO: Better error handling!
-	hr = RegisterInprocServer(szModule, CLSID_RageShellIconHandler, TEXT(INPROCSERVERNAME), TEXT("Apartment"));
+	hr = RegisterInprocServer(szModule, CLSID_RageShellIconHandler, INPROCSERVERNAME, TEXT("Apartment"));
 
-	// Tell the shell the type name
-	hr = RegisterShellIconHandler(CLSID_RageShellIconHandler, TEXT(RPF_HANDLER),					TEXT(RPF_FILE_DESCRIPTION));
-	hr = RegisterShellIconHandler(CLSID_RageShellIconHandler, TEXT(AWC_HANDLER),					TEXT(AWC_FILE_DESCRIPTION));
-	hr = RegisterShellIconHandler(CLSID_RageShellIconHandler, TEXT(SCRIPT_HANDLER),					TEXT(SCRIPT_FILE_DESCRIPTION));
-	hr = RegisterShellIconHandler(CLSID_RageShellIconHandler, TEXT(TEXTURE_DICTIONARY_HANDLER),		TEXT(TEXTURE_DICTIONARY_FILE_DESCRIPTION));
+	// Extension descriptions (e.g rpf = Rockstar Pack File)
+	hr = RegisterShellIconHandler(CLSID_RageShellIconHandler, RPF_HANDLER,					RPF_FILE_DESCRIPTION);
+	hr = RegisterShellIconHandler(CLSID_RageShellIconHandler, AWC_HANDLER,					AWC_FILE_DESCRIPTION);
+	hr = RegisterShellIconHandler(CLSID_RageShellIconHandler, SCRIPT_HANDLER,				SCRIPT_FILE_DESCRIPTION);
+	hr = RegisterShellIconHandler(CLSID_RageShellIconHandler, TEXTURE_DICTIONARY_HANDLER,	TEXTURE_DICTIONARY_FILE_DESCRIPTION);
 
 	// Platform independent
-	hr = RegisterShellFileExtension(TEXT(".rpf"), TEXT(RPF_HANDLER));
-	hr = RegisterShellFileExtension(TEXT(".awc"), TEXT(AWC_HANDLER));
+	hr = RegisterShellFileExtension(TEXT(".rpf"), RPF_HANDLER);
+	hr = RegisterShellFileExtension(TEXT(".awc"), AWC_HANDLER);
 
-	// Script Resources
-	hr = RegisterShellFileExtension(TEXT(".xsc"), TEXT(SCRIPT_HANDLER));
-	hr = RegisterShellFileExtension(TEXT(".csc"), TEXT(SCRIPT_HANDLER));
-	hr = RegisterShellFileExtension(TEXT(".dsc"), TEXT(SCRIPT_HANDLER));
-	hr = RegisterShellFileExtension(TEXT(".osc"), TEXT(SCRIPT_HANDLER));
-	hr = RegisterShellFileExtension(TEXT(".psc"), TEXT(SCRIPT_HANDLER));
-	hr = RegisterShellFileExtension(TEXT(".asc"), TEXT(SCRIPT_HANDLER));
-	hr = RegisterShellFileExtension(TEXT(".ssc"), TEXT(SCRIPT_HANDLER));
-	hr = RegisterShellFileExtension(TEXT(".wsc"), TEXT(SCRIPT_HANDLER));
-	hr = RegisterShellFileExtension(TEXT(".ysc"), TEXT(SCRIPT_HANDLER));
-
-	// Texture Dictionary
-	hr = RegisterShellFileExtension(TEXT(".xtd"), TEXT(TEXTURE_DICTIONARY_HANDLER));
-	hr = RegisterShellFileExtension(TEXT(".ctd"), TEXT(TEXTURE_DICTIONARY_HANDLER));
-	hr = RegisterShellFileExtension(TEXT(".dtd"), TEXT(TEXTURE_DICTIONARY_HANDLER));
-	hr = RegisterShellFileExtension(TEXT(".otd"), TEXT(TEXTURE_DICTIONARY_HANDLER));
-	hr = RegisterShellFileExtension(TEXT(".ptd"), TEXT(TEXTURE_DICTIONARY_HANDLER));
-	hr = RegisterShellFileExtension(TEXT(".atd"), TEXT(TEXTURE_DICTIONARY_HANDLER));
-	hr = RegisterShellFileExtension(TEXT(".std"), TEXT(TEXTURE_DICTIONARY_HANDLER));
-	hr = RegisterShellFileExtension(TEXT(".wtd"), TEXT(TEXTURE_DICTIONARY_HANDLER));
-	hr = RegisterShellFileExtension(TEXT(".ytd"), TEXT(TEXTURE_DICTIONARY_HANDLER));
+	// Platform extensions
+	hr = RegisterMaskedPlatformExtension(TEXT(".#sc"), SCRIPT_HANDLER);
+	hr = RegisterMaskedPlatformExtension(TEXT(".#td"), TEXTURE_DICTIONARY_HANDLER);
 
 	if (SUCCEEDED(hr))
 	{
@@ -119,33 +102,19 @@ STDAPI DllUnregisterServer()
 	// TODO: Better error handling!
 	hr = UnregisterInprocServer(CLSID_RageShellIconHandler);
 
-	hr = UnregisterShellIconHandler(TEXT(RPF_HANDLER));
-	hr = UnregisterShellIconHandler(TEXT(AWC_HANDLER));
-	hr = UnregisterShellIconHandler(TEXT(SCRIPT_HANDLER));
-	hr = UnregisterShellIconHandler(TEXT(TEXTURE_DICTIONARY_HANDLER));
+	// Handlers
+	hr = UnregisterShellIconHandler(RPF_HANDLER);
+	hr = UnregisterShellIconHandler(AWC_HANDLER);
+	hr = UnregisterShellIconHandler(SCRIPT_HANDLER);
+	hr = UnregisterShellIconHandler(TEXTURE_DICTIONARY_HANDLER);
 
+	// Platform independent
 	hr = UnregisterShellFileExtension(TEXT(".rpf"));
 	hr = UnregisterShellFileExtension(TEXT(".awc"));
 
-	hr = UnregisterShellFileExtension(TEXT(".xsc"));
-	hr = UnregisterShellFileExtension(TEXT(".csc"));
-	hr = UnregisterShellFileExtension(TEXT(".dsc"));
-	hr = UnregisterShellFileExtension(TEXT(".osc"));
-	hr = UnregisterShellFileExtension(TEXT(".psc"));
-	hr = UnregisterShellFileExtension(TEXT(".asc"));
-	hr = UnregisterShellFileExtension(TEXT(".ssc"));
-	hr = UnregisterShellFileExtension(TEXT(".wsc"));
-	hr = UnregisterShellFileExtension(TEXT(".ysc"));
-
-	hr = UnregisterShellFileExtension(TEXT(".xtd"));
-	hr = UnregisterShellFileExtension(TEXT(".ctd"));
-	hr = UnregisterShellFileExtension(TEXT(".dtd"));
-	hr = UnregisterShellFileExtension(TEXT(".otd"));
-	hr = UnregisterShellFileExtension(TEXT(".ptd"));
-	hr = UnregisterShellFileExtension(TEXT(".atd"));
-	hr = UnregisterShellFileExtension(TEXT(".std"));
-	hr = UnregisterShellFileExtension(TEXT(".wtd"));
-	hr = UnregisterShellFileExtension(TEXT(".ytd"));
+	// Platform extensions
+	hr = UnregisterMaskedPlatformExtension(TEXT(".#sc"));
+	hr = UnregisterMaskedPlatformExtension(TEXT(".#td"));
 
 	if (SUCCEEDED(hr))
 	{
