@@ -28,8 +28,11 @@ public:
 	IFACEMETHODIMP Load(PCWSTR pszFileName, DWORD dwMode);
 
 	// IExtractIcon
-	IFACEMETHODIMP GetIconLocation(UINT uFlags, PWSTR pszIconFile, UINT cchMax, int* piIndex, UINT* pwFlags);
-	IFACEMETHODIMP Extract(PCWSTR pszFile, UINT nIconIndex, HICON* phiconLarge, HICON* phiconSmall, UINT nIconSize);
+	// 
+	// Added COM_DECLSPEC_NOTHROW macro because of error Error E0766: (C++ exception specification for virtual function is incompatible with that of overridden function)
+	// See combaseapi.h around line 160
+	COM_DECLSPEC_NOTHROW IFACEMETHODIMP GetIconLocation(UINT uFlags, PWSTR pszIconFile, UINT cchMax, int* piIndex, UINT* pwFlags);
+	COM_DECLSPEC_NOTHROW IFACEMETHODIMP Extract(PCWSTR pszFile, UINT nIconIndex, HICON* phiconLarge, HICON* phiconSmall, UINT nIconSize);
 
 	IconHandler();
 
