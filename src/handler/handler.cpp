@@ -4,6 +4,7 @@
 
 // Project
 #include "handler.h"
+#include "main/config.h"
 
 // C/C++
 #include <Shlwapi.h>
@@ -14,18 +15,6 @@
 extern long			g_DllRefCount;
 extern HINSTANCE	g_hInstDLL;
 extern CLSID		CLSID_RageShellIconHandler;
-
-static const char g_Platforms[]{
-	'x' /* Xenon */,
-	'c' /* Cell */,
-	'd' /* Durango */,
-	'o' /* Orbis */,
-	'p' /* Prospero */,
-	'a' /* Android */,
-	's' /* iOS */,
-	'w' /* x32 */,
-	'y' /* x64 */
-};
 
 IconHandler::IconHandler() : m_RefCount(1), m_dwMode(0)
 {
@@ -122,7 +111,7 @@ bool IconHandler::IsOfPlatformExtension(const wchar_t* extension) const
 	if (ext)
 	{
 		bool bPlatformMatch = false;
-		for (const char platform : g_Platforms)
+		for (const wchar_t platform : g_Platforms)
 		{
 			if (towlower(ext[1]) == platform)
 			{
