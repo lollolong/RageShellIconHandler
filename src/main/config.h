@@ -6,12 +6,13 @@
 #define _CONFIG_H_
 
 // RAGE Platforms
-static const wchar_t g_Platforms[9] = {
+static const wchar_t g_Platforms[10] = {
 	L'x' /* Xenon */,
 	L'c' /* Cell */,
 	L'd' /* Durango */,
 	L'o' /* Orbis */,
 	L'p' /* Prospero */,
+	L'z' /* Scarlett */,
 	L'a' /* Android */,
 	L's' /* iOS */,
 	L'w' /* x32 */,
